@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.devHamster.inicioSpring.repositories.OrderRepository;
 import com.devHamster.inicioSpring.repositories.UserRepository;
 
 @Configuration
@@ -13,6 +14,9 @@ public class TestConfig implements CommandLineRunner{
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
