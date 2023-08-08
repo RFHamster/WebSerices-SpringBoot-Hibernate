@@ -2,15 +2,20 @@ package com.devHamster.inicioSpring.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 import com.devHamster.inicioSpring.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -31,6 +36,10 @@ public class Order implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private User client;
+	
+	@JsonIgnore
+	@ManyToMany(mappedBy = "categories")
+	private Set<Product> products = new HashSet<>();
 
 	public Order() {
 	}
@@ -76,9 +85,24 @@ public class Order implements Serializable{
 	public void setClient(User client) {
 		this.client = client;
 	}
-	
-	
-	
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(client, id, moment, orderStatus, products);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		return Objects.equals(client, other.client) && Objects.equals(id, other.id)
+				&& Objects.equals(moment, other.moment) && Objects.equals(orderStatus, other.orderStatus)
+				&& Objects.equals(products, other.products);
+	}	
 	
 }
